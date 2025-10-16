@@ -21,7 +21,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://opal44.com', 'https://www.opal44.com', process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '']
+    ? ['https://opal44.com', 'https://www.opal44.com', process.env.VERCEL_URL ? `${process.env.VERCEL_URL}` : '']
     : ['http://localhost:3000', 'http://localhost:5173'],
   credentials: true
 }));
@@ -161,7 +161,7 @@ app.get('/api/auth/callback', async (req, res) => {
   const error = req.query.error as string;
 
   const baseUrl = process.env.NODE_ENV === 'production'
-    ? process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://opal44.com'
+    ? process.env.VERCEL_URL ? `${process.env.VERCEL_URL}` : 'https://opal44.com'
     : 'http://localhost:3000';
 
   // Handle OAuth errors
@@ -227,7 +227,7 @@ app.get('/api/auth/callback', async (req, res) => {
 
     // Redirect to dashboard after successful authentication
     const frontendUrl = process.env.NODE_ENV === 'production'
-      ? process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://opal44.com'
+      ? process.env.VERCEL_URL ? `${process.env.VERCEL_URL}` : 'https://opal44.com'
       : 'http://localhost:5173';
     
     res.redirect(`${frontendUrl}/dashboard`);
