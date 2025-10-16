@@ -1,9 +1,9 @@
-import { Gem, Play, CheckCircle } from 'lucide-react';
+import { Gem, Play, CheckCircle, LogOut } from 'lucide-react';
 import { useEffect } from 'react';
 import { useAuth } from '@/react-app/hooks/useGoogleAuth';
 
 export default function Hero() {
-  const { user, redirectToLogin } = useAuth();
+  const { user, redirectToLogin, logout } = useAuth();
 
   const handleSignUpClick = async () => {
     if (user) {
@@ -16,6 +16,16 @@ export default function Hero() {
       } catch (error) {
         console.error('Failed to redirect to login:', error);
       }
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Refresh the page to show login button again
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Failed to logout:', error);
     }
   };
 
@@ -75,10 +85,21 @@ export default function Hero() {
             <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Reviews</a>
             {user ? (
               <div className="flex items-center space-x-4">
-                <span className="text-gray-600">Welcome, {user.name}</span>
-                <a href="/dashboard" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg">
-                  Dashboard
-                </a>
+                <div className="flex items-center space-x-3">
+                  <img 
+                    src={user.picture} 
+                    alt={user.name}
+                    className="w-10 h-10 rounded-full border-2 border-blue-500"
+                  />
+                  <span className="text-gray-600">Welcome, {user.name}</span>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg flex items-center space-x-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
               </div>
             ) : (
               <button 

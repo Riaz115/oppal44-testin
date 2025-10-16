@@ -105,9 +105,10 @@ Reply to: ${email}
 
 // Google OAuth redirect URL endpoint
 app.get('/api/oauth/google/redirect_url', async (req, res) => {
+  console.log(process.env.VERCEL_URL);
   try {
     const baseUrl = process.env.NODE_ENV === 'production'
-      ? process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://opal44.com'
+      ? process.env.VERCEL_URL ? `${process.env.VERCEL_URL}` : 'https://opal44.com'
       : 'http://localhost:3000';
 
     const config: GoogleOAuthConfig = {
